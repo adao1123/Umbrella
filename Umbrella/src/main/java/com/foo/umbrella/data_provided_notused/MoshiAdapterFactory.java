@@ -1,4 +1,4 @@
-package com.foo.umbrella.data;
+package com.foo.umbrella.data_provided_notused;
 
 import com.squareup.moshi.JsonAdapter;
 

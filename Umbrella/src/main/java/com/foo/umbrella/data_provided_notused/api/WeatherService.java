@@ -1,7 +1,7 @@
-package com.foo.umbrella.data.api;
+package com.foo.umbrella.data_provided_notused.api;
 
 import com.foo.umbrella.BuildConfig;
-import com.foo.umbrella.data.model.WeatherData;
+import com.foo.umbrella.data_provided_notused.model.WeatherData;
 import retrofit2.Call;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.foo.umbrella.data.model;
+package com.foo.umbrella.data_provided_notused.model;
 
 import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Json;

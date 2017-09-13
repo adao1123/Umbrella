@@ -1,7 +1,7 @@
-package com.foo.umbrella.data;
+package com.foo.umbrella.data_provided_notused;
 
 import com.google.auto.value.AutoValue;
-import com.foo.umbrella.data.model.ForecastCondition;
+import com.foo.umbrella.data_provided_notused.model.ForecastCondition;
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;
