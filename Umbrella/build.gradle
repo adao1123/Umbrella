@@ -45,7 +45,7 @@ android {
     versionCode 1
     versionName '1.0'
 
-    buildConfigField "String", "API_KEY", "\"$project.weatherUndergroundApiKey\""
+    buildConfigField "String", "API_KEY", "\"4b4561a232f4c166\""
     buildConfigField "String", "API_URL", "\"http://api.wunderground.com\""
 
     signingConfig signingConfigs.umbrella
@@ -80,6 +80,7 @@ dependencies {
   compile 'com.squareup.picasso:picasso:2.5.2'
   compile 'com.squareup.retrofit2:retrofit:2.1.0'
   compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+  compile 'com.squareup.retrofit2:converter-gson:2.0.2'
   compile 'com.squareup.retrofit2:converter-moshi:2.1.0'
   compile 'com.squareup.moshi:moshi:1.3.1'
 
