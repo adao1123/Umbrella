@@ -1,6 +1,7 @@
 package com.foo.umbrella.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.foo.umbrella.R;
 import com.foo.umbrella.data.models.WeatherOrigin.Forecast;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,8 +40,7 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Forecast forecast = forecasts.get(position);
         HourlyForcastViewHolder viewHolder = (HourlyForcastViewHolder)holder;
-        viewHolder.timeTV.setText(forecast.getFCTTIME().getCivil());
-        viewHolder.tempTV.setText(forecast.getTemp().getEnglish()+(char)0x00B0);
+        setViews(viewHolder,forecast);
     }
 
     @Override
@@ -57,6 +58,27 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             timeTV = (TextView) itemView.findViewById(R.id.hourly_item_time_tv);
             tempTV = (TextView) itemView.findViewById(R.id.hourly_item_temp_tv);
             iconIV = (ImageView) itemView.findViewById(R.id.hourly_item_icon_iv);
+        }
+    }
+
+    private void setViews(HourlyForcastViewHolder viewHolder, Forecast forecast){
+        viewHolder.timeTV.setText(forecast.getFCTTIME().getCivil());
+        viewHolder.tempTV.setText(forecast.getTemp().getEnglish()+(char)0x00B0);
+        Picasso.with(context).load(forecast.getIcon_url()).into(viewHolder.iconIV);
+        setColdHotColor(viewHolder,forecast);
+    }
+
+    private void setColdHotColor(HourlyForcastViewHolder viewHolder, Forecast forecast){
+        if (forecast.isHottest()&&forecast.isColdest()) return;
+        if (forecast.isColdest()) {
+            viewHolder.timeTV.setTextColor(Color.BLUE);
+            viewHolder.tempTV.setTextColor(Color.BLUE);
+            viewHolder.iconIV.setColorFilter(Color.BLUE);
+        }
+        if (forecast.isHottest()) {
+            viewHolder.timeTV.setTextColor(Color.RED);
+            viewHolder.tempTV.setTextColor(Color.RED);
+            viewHolder.iconIV.setColorFilter(Color.RED);
         }
     }
 }

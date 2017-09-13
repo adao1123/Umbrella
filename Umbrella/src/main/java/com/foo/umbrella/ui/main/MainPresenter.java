@@ -71,11 +71,33 @@ public class MainPresenter implements MainContract.Presenter {
         List<Forecast> currentDayForcastList = new ArrayList<>();
         Forecast initialForecast = forecastList.get(0);
         String day = initialForecast.getFCTTIME().getWeekday_name();
+        Forecast hottestHour = initialForecast;
+        Forecast coldestHour = initialForecast;
+        int hottestTemp = Integer.MIN_VALUE;
+        int coldestTemp = Integer.MAX_VALUE;
+        initialForecast.setColdest(true);
+        initialForecast.setHottest(true);
         for (Forecast forecast : forecastList){
             if (!forecast.getFCTTIME().getWeekday_name().equals(day)){
                 dividedForecastList.add(currentDayForcastList);
                 currentDayForcastList = new ArrayList<>();
                 day = forecast.getFCTTIME().getWeekday_name();
+                hottestTemp = Integer.MIN_VALUE;
+                coldestTemp = Integer.MAX_VALUE;
+                coldestHour = null;
+                hottestHour = null;
+            }
+            if (Integer.parseInt(forecast.getTemp().getEnglish()) < coldestTemp){
+                if (coldestHour != null) coldestHour.setColdest(false);
+                coldestHour = forecast;
+                coldestTemp = Integer.parseInt(forecast.getTemp().getEnglish());
+                coldestHour.setColdest(true);
+            }
+            if (Integer.parseInt(forecast.getTemp().getEnglish()) > hottestTemp){
+                if (hottestHour != null) hottestHour.setHottest(false);
+                hottestHour = forecast;
+                hottestTemp = Integer.parseInt(forecast.getTemp().getEnglish());
+                hottestHour.setHottest(true);
             }
             currentDayForcastList.add(forecast);
         }

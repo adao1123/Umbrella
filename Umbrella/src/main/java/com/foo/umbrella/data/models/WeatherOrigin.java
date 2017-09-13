@@ -21,6 +21,7 @@ public class WeatherOrigin {
         private Temperature dewpoint;
         private String condition;
         private String icon;
+        private String icon_url;
         private boolean isColdest;
         private boolean isHottest;
 
@@ -58,6 +59,10 @@ public class WeatherOrigin {
 
         public String getIcon() {
             return icon;
+        }
+
+        public String getIcon_url() {
+            return icon_url;
         }
 
         public class Time{

@@ -36,7 +36,7 @@ public class ApiManager {
      * Returns HTTPLogging to make it much easier to follow and debug retrofit api calls made
      * @return
      */
-    private static OkHttpClient getOkHttpClient(){
+    private static OkHttpClient getOkHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         return new OkHttpClient.Builder()
