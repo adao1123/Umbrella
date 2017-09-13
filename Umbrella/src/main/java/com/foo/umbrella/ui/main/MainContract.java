@@ -15,7 +15,7 @@ import java.util.List;
 public class MainContract {
 
     public interface View extends BaseView<Presenter> {
-        void displayWeather(List<Forecast> forecasts);
+        void displayWeather(List<List<Forecast>> forecasts);
         void displayCityTitle(String cityTitle);
         void displayCurrentForecast(CurrentObservation currentObservation);
     }

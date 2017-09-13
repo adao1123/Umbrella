@@ -17,8 +17,13 @@ import retrofit2.Response;
  */
 
 public class WeatherRepository {
+
     private static WeatherRepository INSTANCE = null;
 
+    /**
+     * This method returns the single static instance of the repository.
+     * @return WeatherRepository INSTANCE
+     */
     public static WeatherRepository getINSTANCE(){
         if (INSTANCE == null){
             INSTANCE = new WeatherRepository();
@@ -26,6 +31,13 @@ public class WeatherRepository {
         return INSTANCE;
     }
 
+    /**
+     * This method makes (enqueues) the current api call on a separate thread.
+     * It is called from the presenter and will tell the presenter when it is returned.
+     * @param presenter
+     * @param zipCode
+     * @see Call#enqueue(Callback)
+     */
     public void makeCurrentApiCall(final MainPresenter presenter, String zipCode){
         getCurrentApiCall(zipCode).enqueue(new Callback<CurrentOrigin>() {
             @Override
@@ -40,6 +52,13 @@ public class WeatherRepository {
         });
     }
 
+    /**
+     * This method makes (enqueues) the hourly api call on a separate thread.
+     * It is called from the presenter and will tell the presenter when it is returned.
+     * @param presenter
+     * @param zipCode
+     * @see Call#enqueue(Callback)
+     */
     public void makeForcastApiCall(final MainPresenter presenter, String zipCode){
         getForecastApiCall(zipCode).enqueue(new Callback<WeatherOrigin>() {
             @Override
@@ -55,10 +74,24 @@ public class WeatherRepository {
 
     }
 
+    /**
+     * This method will get Retrofit Call for Hourly weather from ApiManager.
+     *
+     * @param zipCode
+     * @see ApiManager#createWeatherApiService()#getForecastApiCall
+     * @return Retrofit Call
+     */
     private Call<WeatherOrigin> getForecastApiCall(String zipCode){
         return ApiManager.createWeatherApiService().getWeatherOrigin(zipCode);
     }
 
+    /**
+     * This method will get Retrofit Call for Current weather from ApiManager.
+     *
+     * @param zipCode
+     * @see ApiManager#createWeatherApiService()#getCurrentApiCall
+     * @return Retrofit Call
+     */
     private Call<CurrentOrigin> getCurrentApiCall(String zipCode){
         return ApiManager.createWeatherApiService().getCurrentWeather(zipCode);
     }

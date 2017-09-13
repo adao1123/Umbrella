@@ -4,6 +4,7 @@ import com.foo.umbrella.data.models.CurrentOrigin.CurrentObservation;
 import com.foo.umbrella.data.models.WeatherOrigin.Forecast;
 import com.foo.umbrella.data.source.WeatherRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -60,9 +61,25 @@ public class MainPresenter implements MainContract.Presenter {
     public void setForecasts(List<Forecast> forecasts){
         this.forecasts = forecasts;
         if (mMainView != null){
-            mMainView.displayWeather(this.forecasts);
+            mMainView.displayWeather(getDividedForcastList(this.forecasts));
         }
     }
 
+    private List<List<Forecast>> getDividedForcastList(List<Forecast> forecastList){
+        List<List<Forecast>> dividedForecastList = new ArrayList<>();
+        if (forecastList.size() == 0) return dividedForecastList;
+        List<Forecast> currentDayForcastList = new ArrayList<>();
+        Forecast initialForecast = forecastList.get(0);
+        String day = initialForecast.getFCTTIME().getWeekday_name();
+        for (Forecast forecast : forecastList){
+            if (!forecast.getFCTTIME().getWeekday_name().equals(day)){
+                dividedForecastList.add(currentDayForcastList);
+                currentDayForcastList = new ArrayList<>();
+                day = forecast.getFCTTIME().getWeekday_name();
+            }
+            currentDayForcastList.add(forecast);
+        }
+        return dividedForecastList;
+    }
 
 }

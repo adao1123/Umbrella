@@ -15,6 +15,12 @@ public class UmbrellaApp extends Application {
     super.onCreate();
     AndroidThreeTen.init(this);
   }
+    /**
+     * This method stores the MainPresenter at the application level.
+     * Therefore it can live outside of the activity lifecycle.
+     * @return MainPresenter
+     * @see MainPresenter
+     */
     public MainContract.Presenter getMainPresenter(){
         if (mMainPresenter == null){
             mMainPresenter = new MainPresenter();
@@ -22,6 +28,10 @@ public class UmbrellaApp extends Application {
         return mMainPresenter;
     }
 
+    /**
+     * This method will release the MainPresenter from memory.
+     * Used to prevent memory leaks.
+     */
     public void releaseMainPresenter(){
         mMainPresenter = null;
     }
