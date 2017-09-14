@@ -1,7 +1,6 @@
 package com.foo.umbrella.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,9 +23,11 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<Forecast> forecasts;
     private Context context;
+    private boolean isFahrenheit;
 
-    public HourlyForecastAdapter(List<Forecast> forecasts) {
+    public HourlyForecastAdapter(List<Forecast> forecasts, boolean isFahrenheit) {
         this.forecasts = forecasts;
+        this.isFahrenheit = isFahrenheit;
     }
 
     @Override
@@ -63,7 +64,11 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void setViews(HourlyForcastViewHolder viewHolder, Forecast forecast){
         viewHolder.timeTV.setText(forecast.getFCTTIME().getCivil());
-        viewHolder.tempTV.setText(forecast.getTemp().getEnglish()+(char)0x00B0);
+        if (isFahrenheit) {
+            viewHolder.tempTV.setText(forecast.getTemp().getEnglish()+(char)0x00B0);
+        }else{
+            viewHolder.tempTV.setText(forecast.getTemp().getMetric()+(char)0x00B0);
+        }
         Picasso.with(context).load(forecast.getIcon_url()).into(viewHolder.iconIV);
         setColdHotColor(viewHolder,forecast);
     }

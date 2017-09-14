@@ -23,5 +23,7 @@ public class MainContract {
     public interface Presenter extends BasePresenter {
         void bindView(MainContract.View view);
         void unbind();
+        void updateList(String zipCode);
+        void start(String zipCode);
     }
 }

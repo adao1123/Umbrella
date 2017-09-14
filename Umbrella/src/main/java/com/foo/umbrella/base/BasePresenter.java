@@ -5,5 +5,8 @@ package com.foo.umbrella.base;
  */
 
 public interface BasePresenter {
-    void start();
+    /**
+     * If I had more activities, I would have required methods in the BasePresenter.
+     */
+
 }

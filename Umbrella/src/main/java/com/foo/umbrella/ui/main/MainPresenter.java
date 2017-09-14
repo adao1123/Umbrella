@@ -1,5 +1,7 @@
 package com.foo.umbrella.ui.main;
 
+import android.util.Log;
+
 import com.foo.umbrella.data.models.CurrentOrigin.CurrentObservation;
 import com.foo.umbrella.data.models.WeatherOrigin.Forecast;
 import com.foo.umbrella.data.source.WeatherRepository;
@@ -13,10 +15,12 @@ import java.util.List;
  */
 
 public class MainPresenter implements MainContract.Presenter {
+    private static final String TAG = MainPresenter.class.getSimpleName();
     private final WeatherRepository mWeatherRepository;
     private MainContract.View mMainView;
     private List<Forecast> forecasts;
     private CurrentObservation currentObservation;
+    private String zipCode;
 
     public MainPresenter() {
         mWeatherRepository = WeatherRepository.getINSTANCE();
@@ -33,21 +37,33 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void start() {
-        initialLoad();
+    public void start(String zipCode) {
+        initialLoad(zipCode);
     }
 
-    private void initialLoad(){
-        if (forecasts == null || forecasts.isEmpty()){
-            mWeatherRepository.makeForcastApiCall(this,"95035");
+    @Override
+    public void updateList(String zipCode) {
+        Log.i(TAG, "updateList: " + zipCode);
+        reload(zipCode);
+    }
+
+    private void initialLoad(String zipCode){
+        if (forecasts == null || forecasts.isEmpty() || !this.zipCode.equals(zipCode)){
+            mWeatherRepository.makeForcastApiCall(this,zipCode);
         } else {
             setForecasts(forecasts);
         }
-        if (currentObservation == null){
-            mWeatherRepository.makeCurrentApiCall(this,"95035");
+        if (currentObservation == null || !this.zipCode.equals(zipCode)){
+            mWeatherRepository.makeCurrentApiCall(this,zipCode);
         } else {
             setCurrent(currentObservation);
         }
+        this.zipCode = zipCode;
+    }
+
+    private void reload(String zipCode){
+        mWeatherRepository.makeForcastApiCall(this,zipCode);
+        mWeatherRepository.makeCurrentApiCall(this,zipCode);
     }
 
     public void setCurrent(CurrentObservation currentObservation){

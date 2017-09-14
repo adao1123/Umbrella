@@ -21,9 +21,11 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final String TAG = DailyForecastAdapter.class.getSimpleName();
     private List<List<Forecast>> forecasts;
     private Context context;
+    private boolean isFahrenheit;
 
-    public DailyForecastAdapter(List<List<Forecast>> forecasts) {
+    public DailyForecastAdapter(List<List<Forecast>> forecasts, boolean isFahrenheit) {
         this.forecasts = forecasts;
+        this.isFahrenheit = isFahrenheit;
     }
 
     @Override
@@ -57,6 +59,10 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public void setIsFahrenheit(boolean isFahrenheit){
+        this.isFahrenheit = isFahrenheit;
+    }
+
     /**
      * This method initializes RecyclerView with GridlayoutManager and HourlyForecastAdapter.
      * Hard set grid to have 4 columns.
@@ -67,6 +73,6 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.View
      */
     private void initRecyclerView(RecyclerView recyclerView, List<Forecast> forecastSubList){
         recyclerView.setLayoutManager(new GridLayoutManager(context,4));
-        recyclerView.setAdapter(new HourlyForecastAdapter(forecastSubList));
+        recyclerView.setAdapter(new HourlyForecastAdapter(forecastSubList, isFahrenheit));
     }
 }
