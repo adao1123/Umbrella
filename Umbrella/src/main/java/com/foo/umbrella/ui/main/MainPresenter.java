@@ -47,17 +47,15 @@ public class MainPresenter implements MainContract.Presenter {
         reload(zipCode);
     }
 
+    /**
+     * This method will tell repository to make API call.
+     * Since we want the app to reload list every time the app becomes the foreground app (onStart()),
+     * there is no need to have null or empty checks to avoid too many calls and return a previously loaded list.
+     * @param zipCode
+     */
     private void initialLoad(String zipCode){
-        if (forecasts == null || forecasts.isEmpty() || !this.zipCode.equals(zipCode)){
-            mWeatherRepository.makeForcastApiCall(this,zipCode);
-        } else {
-            setForecasts(forecasts);
-        }
-        if (currentObservation == null || !this.zipCode.equals(zipCode)){
-            mWeatherRepository.makeCurrentApiCall(this,zipCode);
-        } else {
-            setCurrent(currentObservation);
-        }
+        mWeatherRepository.makeForcastApiCall(this,zipCode);
+        mWeatherRepository.makeCurrentApiCall(this,zipCode);
         this.zipCode = zipCode;
     }
 

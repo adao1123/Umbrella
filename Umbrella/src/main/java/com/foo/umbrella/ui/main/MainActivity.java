@@ -1,8 +1,11 @@
 package com.foo.umbrella.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.foo.umbrella.R;
 import com.foo.umbrella.adapters.DailyForecastAdapter;
@@ -42,17 +46,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     initRecyclerView();
   }
 
+  /**
+   * Presenter.start will be called in onStart, when the app becomes the foreground app.
+   */
   @Override
   protected void onStart() {
     super.onStart();
-    Log.i(TAG, "onStart: ");
     mPresenter.bindView(this);
-  }
-
-  @Override
-  protected void onResume() {
-    super.onResume();
-    mPresenter.start(getLastZipCode());
+    if (hasNetwork()) mPresenter.start(getLastZipCode());
   }
 
   @Override
@@ -157,6 +158,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     ((TextView)findViewById(R.id.current_condition_tv)).setText(currentObservation.getWeather());
     findViewById(R.id.toolbar).setBackgroundColor(ContextCompat.getColor(this,color));
     findViewById(R.id.current_layout).setBackgroundColor(ContextCompat.getColor(this,color));
+  }
+
+  /**
+   * This method checks if there is a network connection.
+   * @return boolean
+   * @see ConnectivityManager
+   * @see ConnectivityManager#getActiveNetwork()
+   */
+  private boolean hasNetwork(){
+    ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+    if (networkInfo != null && networkInfo.isConnected()) return true;
+    Toast.makeText(this,"No Network Connected", Toast.LENGTH_SHORT).show();
+    return false;
   }
 
 }

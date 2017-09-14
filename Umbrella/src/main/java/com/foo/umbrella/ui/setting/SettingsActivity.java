@@ -2,6 +2,7 @@ package com.foo.umbrella.ui.setting;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -23,13 +24,8 @@ public class SettingsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        addPreferencesFromResource(R.xml.settings_preference); //deprecated
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content,new SettingsFragment()).commit();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(
-                new ColorDrawable(ContextCompat.getColor(this,R.color.settings_actionbar)));
-        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.settings_actionbar));
+        openPreferenceFragment();
+        configureActionBar();
     }
 
     @Override
@@ -40,6 +36,20 @@ public class SettingsActivity extends AppCompatActivity{
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openPreferenceFragment(){
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content,new SettingsFragment()).commit();
+    }
+
+    private void configureActionBar(){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(
+                new ColorDrawable(ContextCompat.getColor(this,R.color.settings_actionbar)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.settings_actionbar));
         }
     }
 
@@ -71,19 +81,6 @@ public class SettingsActivity extends AppCompatActivity{
             Log.i(TAG, "onSharedPreferenceChanged: ");
             Preference preference = findPreference(s);
             preference.setSummary(sharedPreferences.getString(s,"95035"));
-//            ((UmbrellaApp)getActivity().getApplication()).getMainPresenter().updateList(sharedPreferences.getString(s,"95035"));
-//
-//            if (s.equals("zip")){
-//                Log.i(TAG, "onSharedPreferenceChanged: ");
-//                Preference zipPreference = findPreference(s);
-//                zipPreference.setSummary(sharedPreferences.getString(s,"95035"));
-//                ((UmbrellaApp)getActivity().getApplication()).getMainPresenter().updateList(sharedPreferences.getString(s,"95035"));
-//            }else if (s.equals("unit")){
-//                Log.i(TAG, "onSharedPreferenceChanged: ");
-//                Preference zipPreference = findPreference(s);
-//                zipPreference.setSummary((sharedPreferences.getString(s,"")));
-//                ((UmbrellaApp)getActivity().getApplication()).getMainPresenter().updateList();
-//            }
         }
 
         private void setPrefenceSummary(){
@@ -93,4 +90,5 @@ public class SettingsActivity extends AppCompatActivity{
         }
 
     }
+
 }

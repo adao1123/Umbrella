@@ -1,5 +1,7 @@
 package com.foo.umbrella.data.source;
 
+import android.util.Log;
+
 import com.foo.umbrella.data.models.CurrentOrigin;
 import com.foo.umbrella.data.models.WeatherOrigin;
 import com.foo.umbrella.ui.main.MainContract;
@@ -64,6 +66,7 @@ public class WeatherRepository {
             @Override
             public void onResponse(Call<WeatherOrigin> call, Response<WeatherOrigin> response) {
                 presenter.setForecasts(Arrays.asList(response.body().getForecastArray()));
+                Log.i("AAAAAAAAAAAAAAAAAAAAA", "onResponse: ");
             }
 
             @Override
