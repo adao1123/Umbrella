@@ -4,22 +4,20 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.foo.umbrella.R;
-import com.foo.umbrella.base.UmbrellaApp;
+import com.foo.umbrella.util.Constants;
 
 public class SettingsActivity extends AppCompatActivity{
 
-    private static final String TAG = SettingsActivity.class.getSimpleName();
+    private static final String ZIP_CODE_DEFAULT = "95035";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +37,19 @@ public class SettingsActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * This method will open PreferenceFragment into this activity.
+     * @see SettingsFragment
+     */
     private void openPreferenceFragment(){
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content,new SettingsFragment()).commit();
     }
 
+    /**
+     * This method will configure ActionBar to have back button and have correct color.
+     * The color of the ActionBar will always change, but unfortunately, the status bar will only change for Lollipop and up.
+     */
     private void configureActionBar(){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(
@@ -59,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity{
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_preference);
-            setPrefenceSummary();
+            setPreferenceSummary();
         }
 
         @Override
@@ -76,19 +82,24 @@ public class SettingsActivity extends AppCompatActivity{
                     .unregisterOnSharedPreferenceChangeListener(this);
         }
 
+        /**
+         * This method is called when SharePref is changed. It changes the summary text.
+         * @param sharedPreferences
+         * @param s
+         */
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-            Log.i(TAG, "onSharedPreferenceChanged: ");
             Preference preference = findPreference(s);
-            preference.setSummary(sharedPreferences.getString(s,"95035"));
+            preference.setSummary(sharedPreferences.getString(s,ZIP_CODE_DEFAULT));
         }
 
-        private void setPrefenceSummary(){
+        /**
+         * This method sets the summary of the preferences to the sharedPreferences.
+         */
+        private void setPreferenceSummary(){
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            findPreference("zip").setSummary(sharedPref.getString("zip","95035"));
-            findPreference("unit").setSummary(sharedPref.getString("unit","Fahrenheit"));
+            findPreference(Constants.ZIP_KEY).setSummary(sharedPref.getString(Constants.ZIP_KEY,ZIP_CODE_DEFAULT));
+            findPreference(Constants.UNIT_KEY).setSummary(sharedPref.getString(Constants.UNIT_KEY,Constants.FAHRENHEIT));
         }
-
     }
-
 }

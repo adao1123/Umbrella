@@ -1,10 +1,11 @@
 package com.foo.umbrella.ui.main;
 
-import android.util.Log;
+import android.support.annotation.Nullable;
 
 import com.foo.umbrella.data.models.CurrentOrigin.CurrentObservation;
 import com.foo.umbrella.data.models.WeatherOrigin.Forecast;
 import com.foo.umbrella.data.source.WeatherRepository;
+import com.foo.umbrella.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 
 public class MainPresenter implements MainContract.Presenter {
-    private static final String TAG = MainPresenter.class.getSimpleName();
+
     private final WeatherRepository mWeatherRepository;
     private MainContract.View mMainView;
     private List<Forecast> forecasts;
@@ -37,14 +38,14 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void start(String zipCode) {
-        initialLoad(zipCode);
-    }
-
-    @Override
-    public void updateList(String zipCode) {
-        Log.i(TAG, "updateList: " + zipCode);
-        reload(zipCode);
+    public void start(@Nullable String zipCode) {
+        if (zipCode == null){
+            openZipcodeDialog();
+            initialLoad(Constants.ZIP_DEFAULT);
+        }
+        else {
+            initialLoad(zipCode);
+        }
     }
 
     /**
@@ -52,6 +53,8 @@ public class MainPresenter implements MainContract.Presenter {
      * Since we want the app to reload list every time the app becomes the foreground app (onStart()),
      * there is no need to have null or empty checks to avoid too many calls and return a previously loaded list.
      * @param zipCode
+     * @see WeatherRepository#makeCurrentApiCall(MainPresenter, String)
+     * @see WeatherRepository#makeForcastApiCall(MainPresenter, String)
      */
     private void initialLoad(String zipCode){
         mWeatherRepository.makeForcastApiCall(this,zipCode);
@@ -59,11 +62,13 @@ public class MainPresenter implements MainContract.Presenter {
         this.zipCode = zipCode;
     }
 
-    private void reload(String zipCode){
-        mWeatherRepository.makeForcastApiCall(this,zipCode);
-        mWeatherRepository.makeCurrentApiCall(this,zipCode);
-    }
-
+    /**
+     * This method will be called from repository to store CurrentObservation object in Presenter.
+     * It calls methods in views to display passed data.
+     * @param currentObservation
+     * @see MainActivity#displayCityTitle(String)
+     * @see MainActivity#displayCurrentForecast(CurrentObservation)
+     */
     public void setCurrent(CurrentObservation currentObservation){
         this.currentObservation = currentObservation;
         if (mMainView != null){
@@ -72,6 +77,13 @@ public class MainPresenter implements MainContract.Presenter {
         }
     }
 
+    /**
+     * This method will be called from repository to store data list in Presenter.
+     * It calls methods in views to display passed data.
+     * @param forecasts
+     * @see MainActivity#displayWeather(List)
+     * @see #getDividedForcastList(List)
+     */
     public void setForecasts(List<Forecast> forecasts){
         this.forecasts = forecasts;
         if (mMainView != null){
@@ -79,6 +91,22 @@ public class MainPresenter implements MainContract.Presenter {
         }
     }
 
+    /**
+     * This method will tell view to open dialog.
+     * @see MainActivity#displayZipCodeDialog()
+     */
+    private void openZipcodeDialog(){
+        if (mMainView != null){
+            mMainView.displayZipCodeDialog();
+        }
+    }
+
+    /**
+     * This method will divide return list into multiple lists separated by day.
+     * This method will also set which Forecast object is the coldest in each day.
+     * @param forecastList
+     * @return List<List<Forecast>> dividedForecastList
+     */
     private List<List<Forecast>> getDividedForcastList(List<Forecast> forecastList){
         List<List<Forecast>> dividedForecastList = new ArrayList<>();
         if (forecastList.size() == 0) return dividedForecastList;
@@ -117,5 +145,4 @@ public class MainPresenter implements MainContract.Presenter {
         }
         return dividedForecastList;
     }
-
 }

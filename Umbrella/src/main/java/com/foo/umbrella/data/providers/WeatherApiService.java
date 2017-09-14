@@ -14,11 +14,11 @@ import retrofit2.http.Path;
 
 public interface WeatherApiService {
 
-    //http://api.wunderground.com/api/4b4561a232f4c166/hourly10day/q/CA/95035.json
+    //http://api.wunderground.com/api/{key}/hourly10day/q/CA/95035.json
     @GET("api/"+ BuildConfig.API_KEY+"/hourly10day/q/CA/{zip}.json")
     Call<WeatherOrigin> getWeatherOrigin(@Path("zip") String zipCode);
 
-    //http://api.wunderground.com/api/4b4561a232f4c166/conditions/q/CA/San_Francisco.json
+    //http://api.wunderground.com/api/{key}/conditions/q/CA/San_Francisco.json
     @GET("api/"+ BuildConfig.API_KEY + "/conditions/q/CA/{zip}.json")
     Call<CurrentOrigin> getCurrentWeather (@Path("zip") String zipCode);
 }

@@ -63,6 +63,12 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
+    /**
+     * This method will set data into the views.
+     * @param viewHolder
+     * @param forecast
+     * @see Picasso
+     */
     private void setViews(HourlyForcastViewHolder viewHolder, Forecast forecast){
         viewHolder.timeTV.setText(forecast.getFCTTIME().getCivil());
         if (isFahrenheit) {
@@ -74,6 +80,11 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         setColdHotColor(viewHolder,forecast);
     }
 
+    /**
+     * This method will display the cool or warm effects to the coldest and warmest Forecast of each day.
+     * @param viewHolder
+     * @param forecast
+     */
     private void setColdHotColor(HourlyForcastViewHolder viewHolder, Forecast forecast){
         if (forecast.isHottest()&&forecast.isColdest()) return;
         if (forecast.isColdest()) {

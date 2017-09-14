@@ -66,7 +66,6 @@ public class WeatherRepository {
             @Override
             public void onResponse(Call<WeatherOrigin> call, Response<WeatherOrigin> response) {
                 presenter.setForecasts(Arrays.asList(response.body().getForecastArray()));
-                Log.i("AAAAAAAAAAAAAAAAAAAAA", "onResponse: ");
             }
 
             @Override

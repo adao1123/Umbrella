@@ -7,7 +7,7 @@
     <ListPreference android:title="Units"
         android:summary="Fahrenheit"
         android:key="unit"
-        android:defaultValue="1"
+        android:defaultValue="Fahrenheit"
         android:entries="@array/unitArray"
         android:entryValues="@array/unitValues"/>
 

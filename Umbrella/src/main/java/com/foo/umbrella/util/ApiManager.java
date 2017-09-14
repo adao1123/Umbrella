@@ -15,6 +15,10 @@ public class ApiManager {
     private static final String WEATHER_BASE_URL = "http://api.wunderground.com/";
     private static Retrofit retrofit;
 
+    /**
+     * This method will create ApiService.
+     * @return WeatherApiService
+     */
     public static WeatherApiService createWeatherApiService(){
         return getRetrofit(WEATHER_BASE_URL).create(WeatherApiService.class);
     }

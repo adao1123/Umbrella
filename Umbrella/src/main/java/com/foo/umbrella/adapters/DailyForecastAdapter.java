@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private static final String TAG = DailyForecastAdapter.class.getSimpleName();
+
     private List<List<Forecast>> forecasts;
     private Context context;
     private boolean isFahrenheit;
@@ -57,6 +57,10 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    /**
+     * This method is called from activity to update isFahrenheit
+     * @param isFahrenheit
+     */
     public void setIsFahrenheit(boolean isFahrenheit){
         this.isFahrenheit = isFahrenheit;
     }
@@ -74,12 +78,23 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.setAdapter(new HourlyForecastAdapter(forecastSubList, isFahrenheit));
     }
 
+    /**
+     * This method sets the data into the views.
+     * @param viewHolder
+     * @param position
+     */
     private void setViews(DailyForecastViewHolder viewHolder, int position){
         List<Forecast> dailyForecast = forecasts.get(position);
         viewHolder.dayTv.setText(getDayTitle(dailyForecast,position));
         initRecyclerView(viewHolder.hourlyRv, dailyForecast);
     }
 
+    /**
+     * This method returns a String of what day to display.
+     * @param dailyForecast
+     * @param position
+     * @return String day
+     */
     private String getDayTitle(List<Forecast> dailyForecast, int position){
         if (position == 0)
             return  "Today";

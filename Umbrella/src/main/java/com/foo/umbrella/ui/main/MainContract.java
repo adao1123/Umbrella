@@ -1,5 +1,7 @@
 package com.foo.umbrella.ui.main;
 
+import android.support.annotation.Nullable;
+
 import com.foo.umbrella.base.BasePresenter;
 import com.foo.umbrella.base.BaseView;
 import com.foo.umbrella.data.models.CurrentOrigin.CurrentObservation;
@@ -18,12 +20,12 @@ public class MainContract {
         void displayWeather(List<List<Forecast>> forecasts);
         void displayCityTitle(String cityTitle);
         void displayCurrentForecast(CurrentObservation currentObservation);
+        void displayZipCodeDialog();
     }
 
     public interface Presenter extends BasePresenter {
         void bindView(MainContract.View view);
         void unbind();
-        void updateList(String zipCode);
-        void start(String zipCode);
+        void start(@Nullable String zipCode);
     }
 }
