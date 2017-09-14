@@ -2,9 +2,11 @@ package com.foo.umbrella.ui.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -130,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     setSupportActionBar(toolbar);
     getSupportActionBar().setTitle(title);
     toolbar.inflateMenu(R.menu.toolbar_menu);
+    DrawableCompat.setTint(toolbar.getMenu().findItem(R.id.action_setting)
+            .getIcon(),ContextCompat.getColor(this,R.color.content_background));
   }
 
   private boolean isFahrenheit(){
@@ -149,8 +153,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
   private void setCurrentViews(CurrentObservation currentObservation){
     double temperature = (isFahrenheit()) ? currentObservation.getTemp_f() : currentObservation.getTemp_c();
     int color = (currentObservation.getTemp_f() >= 60) ? R.color.weather_warm : R.color.weather_cool;
-    ((TextView)findViewById(R.id.current_temp_tv)).setText(String.valueOf(temperature));
+    ((TextView)findViewById(R.id.current_temp_tv)).setText(String.valueOf(Math.round(temperature))+(char)0x00B0);
     ((TextView)findViewById(R.id.current_condition_tv)).setText(currentObservation.getWeather());
+    findViewById(R.id.toolbar).setBackgroundColor(ContextCompat.getColor(this,color));
     findViewById(R.id.current_layout).setBackgroundColor(ContextCompat.getColor(this,color));
   }
 

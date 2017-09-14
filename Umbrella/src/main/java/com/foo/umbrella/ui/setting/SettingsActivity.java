@@ -1,11 +1,13 @@
 package com.foo.umbrella.ui.setting;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,9 @@ public class SettingsActivity extends AppCompatActivity{
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content,new SettingsFragment()).commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(
+                new ColorDrawable(ContextCompat.getColor(this,R.color.settings_actionbar)));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.settings_actionbar));
     }
 
     @Override

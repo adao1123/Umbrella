@@ -5,17 +5,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     cardCornerRadius="2dp"
     app:cardElevation="2dp"
-    android:layout_margin="5dp">
+    android:layout_marginBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="16dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/forecast_item_day_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_primary"
+            android:textSize="21sp"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="16dp"
+            android:background="@color/forecast_card_divider"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/forecast_item_rv"
             android:layout_width="match_parent"

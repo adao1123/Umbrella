@@ -2,6 +2,7 @@ package com.foo.umbrella.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,14 +77,16 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void setColdHotColor(HourlyForcastViewHolder viewHolder, Forecast forecast){
         if (forecast.isHottest()&&forecast.isColdest()) return;
         if (forecast.isColdest()) {
-            viewHolder.timeTV.setTextColor(Color.BLUE);
-            viewHolder.tempTV.setTextColor(Color.BLUE);
-            viewHolder.iconIV.setColorFilter(Color.BLUE);
+            int color = ContextCompat.getColor(context,R.color.weather_cool);
+            viewHolder.timeTV.setTextColor(color);
+            viewHolder.tempTV.setTextColor(color);
+            viewHolder.iconIV.setColorFilter(color);
         }
         if (forecast.isHottest()) {
-            viewHolder.timeTV.setTextColor(Color.RED);
-            viewHolder.tempTV.setTextColor(Color.RED);
-            viewHolder.iconIV.setColorFilter(Color.RED);
+            int color = ContextCompat.getColor(context,R.color.weather_warm);
+            viewHolder.timeTV.setTextColor(color);
+            viewHolder.tempTV.setTextColor(color);
+            viewHolder.iconIV.setColorFilter(color);
         }
     }
 }

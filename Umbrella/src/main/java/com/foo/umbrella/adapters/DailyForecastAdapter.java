@@ -37,10 +37,8 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        List<Forecast> dailyForcast = forecasts.get(position);
         DailyForecastViewHolder viewHolder = (DailyForecastViewHolder) holder;
-        viewHolder.dayTv.setText(dailyForcast.get(0).getFCTTIME().getWeekday_name());
-        initRecyclerView(viewHolder.hourlyRv, dailyForcast);
+        setViews(viewHolder,position);
     }
 
     @Override
@@ -74,5 +72,21 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<RecyclerView.View
     private void initRecyclerView(RecyclerView recyclerView, List<Forecast> forecastSubList){
         recyclerView.setLayoutManager(new GridLayoutManager(context,4));
         recyclerView.setAdapter(new HourlyForecastAdapter(forecastSubList, isFahrenheit));
+    }
+
+    private void setViews(DailyForecastViewHolder viewHolder, int position){
+        List<Forecast> dailyForecast = forecasts.get(position);
+        viewHolder.dayTv.setText(getDayTitle(dailyForecast,position));
+        initRecyclerView(viewHolder.hourlyRv, dailyForecast);
+    }
+
+    private String getDayTitle(List<Forecast> dailyForecast, int position){
+        if (position == 0)
+            return  "Today";
+        else if (position == 1){
+            return  "Tomorrow";
+        }else{
+            return dailyForecast.get(0).getFCTTIME().getWeekday_name();
+        }
     }
 }

@@ -5,6 +5,7 @@
     tools:context=".ui.main.MainActivity"
     android:orientation="vertical"
     android:id="@+id/main_content"
+    android:background="@color/content_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/weather_cool"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:title="City, State"
         app:titleTextColor="@color/content_background"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -25,22 +26,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:elevation="4dp"
-        android:gravity="center">
+        android:elevation="8dp"
+        android:gravity="center"
+        android:paddingBottom="16dp">
         <TextView
             android:id="@+id/current_temp_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/content_background"
             android:textSize="56sp"/>
         <TextView
             android:id="@+id/current_condition_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/content_background"
             android:textSize="17sp"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/forecast_rv"
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
